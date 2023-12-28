@@ -1,0 +1,73 @@
+/**
+* Name: exc2part2
+* Based on the internal skeleton template. 
+* Author: kien
+* Tags: 
+*/
+
+model exc2part2
+
+global {
+	int nb_people <- 10;
+	list<float> money_list;
+	list<float> energy_list;
+	list<int> agent_list;
+	init{
+		create people number: nb_people;
+	}
+	reflex{
+		//get the money and energy list
+		ask people{
+			money_list <- money_list + money;
+			energy_list <- energy_list + energy;
+		}
+		//get the list of people with energy greater than 5
+		list<float> G5_list <- energy_list where (each > 5);
+		//get a list of 3 random people agents
+		agent_list <- agent_list + agents;
+		list<float> rnd_agent <- 3 among agent_list;
+		//get the people agent with the max of energy and with the min of money
+		unknown people_max_energy <- energy_list with_max_of (each);
+		unknown people_min_money <- money_list with_min_of (each);
+		//get the maximum value of money and the minimum value of energy
+		unknown people_max_money <- money_list with_max_of (each);
+		unknown people_min_energy <- energy_list with_min_of (each);
+		//get the list of people with energy greater than 3 adn lower than 6
+		list<float> L6_list <- energy_list where(each < 6);
+		list<float> G3L6_list <- L6_list where(each > 3);
+		//check whether there is a people agent with money greater than 9
+		list<float> G9_list <- money_list where (each >9);
+		bool check_g9 <- empty(G9_list);
+		 
+	
+		write agent_list;
+		write 'List of people with energy greater than 5: ' + G5_list;
+		write '3 random agents: ' + rnd_agent;
+		write 'Agent with the max of energy: ' + people_max_energy;
+		write 'Agent with the min of energy: ' + people_min_energy;
+		write 'Agent with the max of money: ' + people_max_money;
+		write 'Agent with the min of money: ' + people_min_money;
+		write 'List of all energy value: ' + energy_list;
+		write 'List of all money value: ' + money_list;
+		write 'List of people with energy greater than 3 and lower than 6: ' + G3L6_list;
+		write 'There are no people agent with money greater than 9: ' + check_g9;
+	}
+	
+	
+	
+	
+	reflex stop when:true{
+		do pause;
+	}
+
+}
+
+species people{
+	float money <- rnd(0.0 , 10.0);
+	float energy <- rnd(0.0 , 10.0);
+}
+
+experiment exc2part2 type: gui {
+	output {
+	}
+}
