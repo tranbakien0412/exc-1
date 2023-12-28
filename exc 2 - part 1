@@ -1,0 +1,102 @@
+/**
+* Name: exc2part1
+* Based on the internal skeleton template. 
+* Author: kien
+* Tags: 
+*/
+
+model testing
+
+global {
+	list<int> list_nb;
+	int numberbOfElements;
+	int first_element;
+	list<int> reverse_list;
+	int reverse_nb;
+	int last_element;
+	list<int> ascending_list;
+	list<int> descending_list;
+	list<int> GE5_list;
+	list<int> spec_list;
+	list<int> spec_list1;
+	list<int> spec_list2;
+	list<int> multiplied_list;
+	list<int> square_list;
+	
+	init{
+		//create the list
+		loop times: 10{    										
+			add rnd(10) to: list_nb;
+		}
+		//get the numebr of elements of the list
+		numberbOfElements <- length(list_nb);
+		//get the first element of the list						
+		first_element <- list_nb at 0;
+		//reverse the order of the element of the list	
+		int r_count <- (length(list_nb)- 1);							
+		loop while: r_count < length(list_nb) and r_count >= 0{			
+			reverse_nb <- list_nb at r_count;
+			add reverse_nb to: reverse_list;
+			r_count <- r_count - 1;
+		}
+		//get the last element of the list
+		last_element <- list_nb at (length(list_nb)-1);	
+		//sort the element by ascending order		
+		int a_count <- 0;
+		loop while: a_count <= length(list_nb){
+			loop i over: list_nb{
+				if i = a_count{
+					add i to: ascending_list;
+				}
+			}
+			a_count <- a_count + 1;
+		}
+		//sort the element by descending order
+		int d_count <- length(list_nb);
+		loop while: d_count >= 0{
+			loop i over: list_nb{
+				if i = d_count{
+					add i to: descending_list;
+				}
+			}
+			d_count <- d_count - 1;
+		}
+		//get a list with only the elements greater or equals to 5
+		GE5_list <- list_nb where (each >= 5);
+		//get a list for question 9
+		spec_list1 <- ascending_list where (each < 5);
+		spec_list2 <- descending_list where (each >= 5);
+		spec_list <- spec_list1 + spec_list2;
+		//get a list of all the elements multiplied by 10
+		loop i over: list_nb{
+			int new_nb <- i * 10;
+			add new_nb to: multiplied_list;
+		}
+		//get a list of the square of elements greater than 5
+		list<int> G5_list <- list_nb where (each > 5);
+		loop i over: G5_list{
+			int G5_nb <- i ^ 2;
+			add G5_nb to: square_list;
+		}
+		//display answer
+		write 'List of number: ' +  list_nb; 
+		write 'Number of elements: ' + numberbOfElements;
+		write 'First elements: ' + first_element;
+		write 'Last elemets: ' + last_element;
+		write 'Reverse list: ' + reverse_list;
+		write 'Ascending list: ' + ascending_list;
+		write 'Descending list: ' + descending_list;
+		write 'List of elements greater or equals to 5: ' + GE5_list;
+		write 'Organised list: ' + spec_list;
+		write 'List of elements multiplied by 10: ' + multiplied_list;
+		write 'List of the square of elements greater than 5: ' + square_list;
+	}
+}
+
+
+
+experiment testing type: gui {
+	
+	output {
+	}
+}
