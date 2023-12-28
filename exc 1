@@ -1,0 +1,50 @@
+model testing
+
+global {
+	int nb_people <- 10;
+	list<int> lvalues;
+	
+	init{
+		create people number: nb_people;
+	}
+	reflex{
+		loop times: 10{									// create the list
+			add rnd(10) to: lvalues;
+		}
+	}
+	reflex stop when: true{
+		do pause;
+	}
+}
+
+species people{
+	int money <- 0;
+	int times <- 10;
+	int number <- 10;
+	reflex{
+		loop while: times > 0{							//find the greatest value to add into money and remove it from the list
+			loop i over: lvalues{
+				if(i = number){
+					money <- i;
+					times <- 0;
+				}
+			}
+			if number >= 0{
+				number <- number - 1;
+				times <- times -1;
+			}
+		}
+		if money >= 0{
+				remove item: money from: lvalues;
+			}
+		write 'money is: ' + money;
+	}
+}
+species scheduler schedules: shuffle(people);			// execute agents in random order
+
+
+experiment testing type: gui {
+	
+	output {
+	}
+}
